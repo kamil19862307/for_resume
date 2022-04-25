@@ -92,8 +92,8 @@ if(isset($_GET['edit_id'])){
 				WHERE id = $edit_id"; */
 // а тут уже ООП
 	$res = $link_pdo->prepare('SELECT id, foto, name, lastname, surname, prof, birthdate, activ, date, pasport, adres, opis, status 
-								FROM gallery 
-								WHERE id = :edit_id');
+							FROM gallery 
+							WHERE id = :edit_id');
 	$res->execute(array('edit_id' => $edit_id));
 
 	//$res = mysqli_query($link, $sql) or die(mysqli_error($link));//процедурный стиль
