@@ -15,8 +15,7 @@ exit;
 	}
 }
 */
-//Добавление записи, если данные пришли
-// ИСКЛЮЧИТЕЛЬНО в данном проекте мы ПОЛНОСТЬЮ доверяем админу сайта - проверка на пришедшие данные не ведётся
+//Добавление записи, если данные пришли	//////////////////////////////////////////
 if($_SERVER['REQUEST_METHOD']=='POST'){
 	
 	$edit_id = $_POST['edit_id'];
@@ -87,12 +86,18 @@ exit;
 ///////////////////////////////////////////////////////////////////////////////////
 if(isset($_GET['edit_id'])){
 	$edit_id = abs((int)$_GET['edit_id']);//Чищу от всего нехорошего
-
-	$sql = "SELECT id, foto, name, lastname, surname, prof, birthdate, activ, date, pasport, adres, opis, status
+//Ниже пример процедурного кода
+/* 	$sql = "SELECT id, foto, name, lastname, surname, prof, birthdate, activ, date, pasport, adres, opis, status
 				FROM gallery
-				WHERE id = $edit_id";
-	$res = mysqli_query($link, $sql);
-	while($row = mysqli_fetch_assoc($res)){
+				WHERE id = $edit_id"; */
+// а тут уже ООП
+	$res = $link_pdo->prepare('SELECT id, foto, name, lastname, surname, prof, birthdate, activ, date, pasport, adres, opis, status 
+								FROM gallery 
+								WHERE id = :edit_id');
+	$res->execute(array('edit_id' => $edit_id));
+
+	//$res = mysqli_query($link, $sql) or die(mysqli_error($link));//процедурный стиль
+	foreach($res as $row){
 	$id = $row['id'];
 	$foto = $row['foto'];
 	$name = $row['name'];
